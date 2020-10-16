@@ -5,6 +5,11 @@
 */
 #ifndef _SCTE35_TYPES_H_
 #define _SCTE35_TYPES_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 
 #define FAIL  -1
@@ -152,5 +157,9 @@ int ParseSCTE35FromByteArray(
 void PrintParsedSCTE35ToFile(
   FILE *data, 
   splice_info_section_struct_list_t *parsed_list);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
