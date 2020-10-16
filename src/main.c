@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "scte35_types.h"
+#include "../lib/scte35_types.h"
 
 // implemented in 'scte35_parser.c'
 extern void ReleaseSpliceInfoSectionList(splice_info_section_struct_list_t *splice_info_section_list);
