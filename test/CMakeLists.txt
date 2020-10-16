@@ -8,4 +8,4 @@ file(GLOB_RECURSE SOURCES "*.cpp")
 include_directories(libs)
 
 add_executable(${TARGET} main.cpp ${SOURCES})
-target_link_libraries(${TARGET} lib)
+target_link_libraries(${TARGET} libScte35)

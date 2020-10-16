@@ -1,3 +1,3 @@
 file(GLOB_RECURSE SOURCES "*.c")
 file(GLOB_RECURSE SOURCES_CPP "*.cpp")
-add_library(lib ${SOURCES} ${SOURCES_CPP})
+add_library(libScte35 ${SOURCES} ${SOURCES_CPP})
