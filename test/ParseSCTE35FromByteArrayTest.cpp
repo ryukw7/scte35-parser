@@ -9,15 +9,14 @@ TEST_CASE("ParseSCTE35FromByteArray.scte35_1") {
     splice_insert_t *si = (splice_insert_t *) siList->splice_info_section->splice_command_ptr;
     REQUIRE(si->splice_immediate_flag == false);
 
-    PrintParsedSCTE35ToFile(NULL, siList);
+//    PrintParsedSCTE35ToFile(NULL, siList);
 
-//    splicePts
     REQUIRE(si->unique_program_id == 7030);
     REQUIRE(si->out_of_network_indicator == true);
-//    REQUIRE(si->break_duration.duration == 15000000); // ???
+    REQUIRE(si->break_duration.duration == 1350000);
     REQUIRE(si->splice_event_id == 821094442);
     REQUIRE(si->splice_event_cancel_indicator == false);
-    FreeSpliceInfoList(&siList);
 
+    FreeSpliceInfoList(&siList);
     fclose(fp);
 }
