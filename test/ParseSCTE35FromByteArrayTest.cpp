@@ -6,8 +6,10 @@ TEST_CASE("ParseSCTE35FromByteArray.scte35_1") {
 
     splice_info_section_struct_list_t *siList = nullptr;
     ParseSCTE35FromByteArray(fp, &siList);
-    splice_insert_t * si = (splice_insert_t *)siList->splice_info_section->splice_command_ptr;
+    splice_insert_t *si = (splice_insert_t *) siList->splice_info_section->splice_command_ptr;
     REQUIRE(si->splice_immediate_flag == false);
+
+    PrintParsedSCTE35ToFile(NULL, siList);
 
 //    splicePts
     REQUIRE(si->unique_program_id == 7030);
