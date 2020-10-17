@@ -154,6 +154,8 @@ int ParseSCTE35FromByteArray(
   FILE *inputstream, 
   splice_info_section_struct_list_t **list);
 
+void FreeSpliceInfoList(splice_info_section_struct_list_t **list);
+
 void PrintParsedSCTE35ToFile(
   FILE *data, 
   splice_info_section_struct_list_t *parsed_list);

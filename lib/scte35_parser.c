@@ -394,11 +394,10 @@ int ParseSCTE35FromByteArray(
     // if end of file reached and couldnt parse a valid splice_info_section
 function_exit:
     free(filebuffer_bits);
-    free_splice_info_section_struct_list(splice_info_section_struct_list);
-  return parseDone == 1 ? 0 : FAIL; 
+  return parseDone == 1 ? 0 : FAIL;
 }
 
-static void free_splice_info_section_struct_list(splice_info_section_struct_list_t **list) {
+void FreeSpliceInfoList(splice_info_section_struct_list_t **list) {
     while (*list) {
         splice_info_section_struct_list_t *parent = *list;
         *list = (*list)->next;
