@@ -7,6 +7,8 @@
 extern void splice_insert_printer(splice_insert_t *ptr);
 extern void splice_time_printer(splice_time_t *ptr);
 
+static void free_splice_info_section_struct_list(splice_info_section_struct_list_t **list);
+
 extern void ReleaseSpliceInfoSection(splice_info_section_t *splice_info_section) {
   if (splice_info_section == NULL) return;
 
@@ -391,5 +393,19 @@ int ParseSCTE35FromByteArray(
 
     // if end of file reached and couldnt parse a valid splice_info_section
 function_exit:
+    free(filebuffer_bits);
+    free_splice_info_section_struct_list(splice_info_section_struct_list);
   return parseDone == 1 ? 0 : FAIL; 
+}
+
+static void free_splice_info_section_struct_list(splice_info_section_struct_list_t **list) {
+    while (*list) {
+        splice_info_section_struct_list_t *parent = *list;
+        *list = (*list)->next;
+
+        free(parent->splice_info_section->splice_command_ptr);
+        free(parent->splice_info_section->segmentation_descriptor);
+        free(parent->splice_info_section);
+        free(parent);
+    }
 }
