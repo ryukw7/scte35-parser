@@ -1,6 +1,8 @@
 #include <catch2/catch.hpp>
 #include "../lib/scte35_types.h"
 
+#include <iostream>
+
 TEST_CASE("ParseSCTE35FromByteArray.scte35_1") {
     FILE *fp = fopen("../../test/cases/scte35_1.bin", "rb");
 
@@ -8,6 +10,8 @@ TEST_CASE("ParseSCTE35FromByteArray.scte35_1") {
     ParseSCTE35FromByteArray(fp, &siList);
     splice_insert_t *si = (splice_insert_t *) siList->splice_info_section->splice_command_ptr;
     REQUIRE(si->splice_immediate_flag == false);
+
+    REQUIRE(si->splice_time.pts_time == 0x19226dd86); // ??
 
 //    PrintParsedSCTE35ToFile(NULL, siList);
 
