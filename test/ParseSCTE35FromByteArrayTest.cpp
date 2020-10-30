@@ -11,7 +11,7 @@ TEST_CASE("ParseSCTE35FromByteArray.scte35_1") {
     splice_insert_t *si = (splice_insert_t *) siList->splice_info_section->splice_command_ptr;
     REQUIRE(si->splice_immediate_flag == false);
 
-    REQUIRE(si->splice_time.pts_time == 0x19226dd86); // ??
+    REQUIRE(si->splice_time.pts_time == 4599504262); // 4599504262
 
 //    PrintParsedSCTE35ToFile(NULL, siList);
 
