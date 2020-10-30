@@ -17,7 +17,7 @@ TEST_CASE("ParseSCTE35FromByteArray.scte35_1") {
 
     REQUIRE(si->unique_program_id == 7030);
     REQUIRE(si->out_of_network_indicator == true);
-    REQUIRE(si->break_duration.duration == 1350000);
+    REQUIRE(si->break_duration.duration / 90 == 15000); // 15s
     REQUIRE(si->splice_event_id == 821094442);
     REQUIRE(si->splice_event_cancel_indicator == false);
 
