@@ -158,7 +158,10 @@ void PrintParsedSCTE35ToFile(
     indent_print(LVL_1, "splice_command_type : %d", splice_info_section->splice_command_type);
     
     // print splice command by type
-    splice_info_section->splice_command_printer(splice_info_section->splice_command_ptr);
+    if (splice_info_section->splice_command_type == 5) // splice insert
+        splice_insert_printer((splice_insert_t *)splice_info_section->splice_command_ptr);
+
+//    splice_info_section->splice_command_printer(splice_info_section->splice_command_ptr);
 
     indent_print(LVL_1, "descriptor_loop_length : %d", splice_info_section->descriptor_loop_length);
     indent_print(LVL_1, "splice_descriptor() {");
