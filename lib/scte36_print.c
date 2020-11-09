@@ -66,7 +66,7 @@ extern void splice_insert_printer(splice_insert_t *ptr) {
     if (ptr->splice_time.time_specified_flag == 1)
     {
       indent_print(LVL_3, "reserved : %d", ptr->splice_time.time_specified_flag_reserved);
-      indent_print(LVL_3, "pts_time : %d", ptr->splice_time.pts_time);
+      indent_print(LVL_3, "pts_time : %llu", ptr->splice_time.pts_time);
     }
     else
     {
@@ -87,7 +87,7 @@ extern void splice_insert_printer(splice_insert_t *ptr) {
         if (ptr->splice_time.time_specified_flag == 1)
         {
           indent_print(LVL_3, "reserved : %d", ptr->splice_time.time_specified_flag_reserved);
-          indent_print(LVL_3, "pts_time : %d", ptr->splice_time.pts_time);
+          indent_print(LVL_3, "pts_time : %llu", ptr->splice_time.pts_time);
         }
         else
         {
@@ -102,7 +102,7 @@ extern void splice_insert_printer(splice_insert_t *ptr) {
 
       indent_print(LVL_3, "auto_return : %d", ptr->break_duration.auto_return);
       indent_print(LVL_3, "reserved : %d", ptr->break_duration.reserved);
-      indent_print(LVL_3, "duration : %d", ptr->break_duration.duration);
+      indent_print(LVL_3, "duration : %llu", ptr->break_duration.duration);
 
       indent_print(LVL_2, "}"); // break_duration()
     }
@@ -120,7 +120,7 @@ extern void splice_time_printer(splice_time_t *ptr) {
   if (ptr->time_specified_flag == 1)
   {
     indent_print(LVL_3, "reserved : %d", ptr->time_specified_flag_reserved);
-    indent_print(LVL_3, "pts_time : %d", ptr->pts_time);
+    indent_print(LVL_3, "pts_time : %llu", ptr->pts_time);
   }
   else
   {
@@ -151,7 +151,7 @@ void PrintParsedSCTE35ToFile(
     indent_print(LVL_1, "protocol_version : %d", splice_info_section->protocol_version);
     indent_print(LVL_1, "encrypted_packet : %d", splice_info_section->encrypted_packet);
     indent_print(LVL_1, "encryption_algorithm : %d", splice_info_section->encryption_algorithm);
-    indent_print(LVL_1, "pts_adjustment : %d", splice_info_section->pts_adjustment);
+    indent_print(LVL_1, "pts_adjustment : %llu", splice_info_section->pts_adjustment);
     indent_print(LVL_1, "cw_index : %d", splice_info_section->cw_index);
     indent_print(LVL_1, "tier : %d", splice_info_section->tier);
     indent_print(LVL_1, "splice_command_length : %d", splice_info_section->splice_command_length);
@@ -200,14 +200,14 @@ void PrintParsedSCTE35ToFile(
             indent_print(LVL_3, "{");
             indent_print(LVL_4, "component_tag : %d", splice_info_section->segmentation_descriptor[i].component_tags[j].component_tag);
             indent_print(LVL_4, "reserved : %d", splice_info_section->segmentation_descriptor[i].component_tags[j].reserved);
-            indent_print(LVL_4, "pts_ofset : %d", splice_info_section->segmentation_descriptor[i].component_tags[j].pts_ofset);
+            indent_print(LVL_4, "pts_ofset : %llu", splice_info_section->segmentation_descriptor[i].component_tags[j].pts_ofset);
             indent_print(LVL_3, "}");
           }
         } // program_segmentation_flag == 0
 
         if (splice_info_section->segmentation_descriptor[i].segmentation_duration_flag == 1)
         {
-          indent_print(LVL_3, "segmentation_duration : %d", splice_info_section->segmentation_descriptor[i].segmentation_duration);
+          indent_print(LVL_3, "segmentation_duration : %llu", splice_info_section->segmentation_descriptor[i].segmentation_duration);
         } // segmentation_duration_flag == 1
         indent_print(LVL_3, "segmentation_upid_type : %d", splice_info_section->segmentation_descriptor[i].segmentation_upid_type);
         indent_print(LVL_3, "segmentation_upid_length : %d", splice_info_section->segmentation_descriptor[i].segmentation_upid_length);
