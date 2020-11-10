@@ -11,21 +11,42 @@ TEST_CASE("ParseSCTE35FromByteArray.scte35_1") {
     splice_info_section_struct_list_t *siList = nullptr;
     ParseSCTE35FromByteArray(fp, &siList);
 
-    FILE *fp2 = fopen("/tmp/x.scte35", "w");
-    PrintParsedSCTE35ToFile(fp2, siList);
-    fclose(fp2);
+//    FILE *fp2 = fopen("/tmp/x.scte35", "w");
+//    PrintParsedSCTE35ToFile(fp2, siList);
+//    fclose(fp2);
+//    PrintParsedSCTE35ToFile(NULL, siList);
 
     splice_insert_t *si = (splice_insert_t *) siList->splice_info_section->splice_command_ptr;
-    REQUIRE(si->splice_immediate_flag == false);
+    CHECK(si->splice_immediate_flag == false);
 
-//    REQUIRE(si->splice_time.pts_time == 4599504262L); // 4599504262
-    REQUIRE(si->splice_time.pts_time - siList->next->splice_info_section->pts_adjustment - 1 == 4599504262);
+    CHECK(si->splice_time.pts_time - siList->next->splice_info_section->pts_adjustment - 1 == 4599504262);
 
-    REQUIRE(si->unique_program_id == 7030);
-    REQUIRE(si->out_of_network_indicator == true);
-    REQUIRE(si->break_duration.duration / 90 == 15000); // 15s
-    REQUIRE(si->splice_event_id == 821094442);
-    REQUIRE(si->splice_event_cancel_indicator == false);
+    CHECK(si->unique_program_id == 7030);
+    CHECK(si->out_of_network_indicator == true);
+    CHECK(si->break_duration.duration / 90 == 15000); // 15s
+    CHECK(si->splice_event_id == 821094442);
+    CHECK(si->splice_event_cancel_indicator == false);
+
+    FreeSpliceInfoList(&siList);
+    fclose(fp);
+}
+
+TEST_CASE("ParseSCTE35FromByteArray - splice schedule") {
+    FILE *fp = fopen("../../test/cases/scte35_2.bin", "rb");
+
+    splice_info_section_struct_list_t *siList = nullptr;
+    ParseSCTE35FromByteArray(fp, &siList);
+
+    const auto ss = (splice_schedule_t *) siList->splice_info_section->splice_command_ptr;
+    CHECK(ss->splice_count == 1);
+    const auto sse = ss->splice_schedule_event_t[0];
+//  si->splice_immediate_flag ??
+//    CHECK(sse.utc_splice_time.pts_time - siList->next->splice_info_section->pts_adjustment - 1 == -626816417352);
+    CHECK(sse.unique_program_id == 42187);
+    CHECK(sse.out_of_network_indicator == 0);
+    CHECK(sse.break_duration.duration / 90 == 120000); // 120s
+    CHECK(sse.splice_event_id == 821102609);
+    CHECK(sse.splice_event_cancel_indicator == false);
 
     FreeSpliceInfoList(&siList);
     fclose(fp);

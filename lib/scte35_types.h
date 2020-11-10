@@ -56,6 +56,31 @@ typedef struct {
   uint8_t avails_expected;
 } splice_insert_t;
 
+typedef struct {
+    uint8_t splice_count;
+    struct {
+        uint32_t splice_event_id;
+        uint8_t splice_event_cancel_indicator : 1;
+        uint8_t reserved : 7;
+        uint8_t out_of_network_indicator : 1;
+        uint8_t program_splice_flag : 1;
+        uint8_t duration_flag : 1;
+        uint8_t splice_event_reserved : 5;
+        // if program_splice_flag == 1
+        splice_time_t utc_splice_time;
+        uint8_t component_count;
+        struct {
+            uint8_t component_tag;
+            splice_time_t utc_splice_time;
+        } component_t[255]; // up to component count
+        // if duration_flag == 1
+        break_duration_t break_duration;
+        uint16_t unique_program_id;
+        uint8_t avail_num;
+        uint8_t avails_expected;
+    } splice_schedule_event_t[255]; // up to splice_count
+} splice_schedule_t;
+
 // base splice descriptor struct that every descriptor shares
 typedef struct {
   uint8_t  splice_descriptor_tag;
