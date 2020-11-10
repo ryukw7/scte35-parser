@@ -41,11 +41,11 @@ TEST_CASE("ParseSCTE35FromByteArray - splice schedule") {
     CHECK(ss->splice_count == 1);
     const auto sse = ss->splice_schedule_event_t[0];
 //  si->splice_immediate_flag ??
-//    CHECK(sse.utc_splice_time.pts_time - siList->next->splice_info_section->pts_adjustment - 1 == -626816417352);
-    CHECK(sse.unique_program_id == 42187);
-    CHECK(sse.out_of_network_indicator == 0);
+//    CHECK(sse.utc_splice_time.pts_time - siList->next->splice_info_section->pts_adjustment - 1 == -627096585282);
+    CHECK(sse.unique_program_id == 4343);
+    CHECK(sse.out_of_network_indicator == true);
     CHECK(sse.break_duration.duration / 90 == 120000); // 120s
-    CHECK(sse.splice_event_id == 821102609);
+    CHECK(sse.splice_event_id == 821102409);
     CHECK(sse.splice_event_cancel_indicator == false);
 
     FreeSpliceInfoList(&siList);
