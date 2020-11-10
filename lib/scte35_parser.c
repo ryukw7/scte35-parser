@@ -159,62 +159,60 @@ int ParseSCTE35FromByteArray(
             splice_schedule_t *splice_schedule = section->splice_command_ptr;
             splice_schedule->splice_count = ReadBitsFromArray(filebuffer_bits, 8, &filebuffer_bits_index);
             for (int k = 0; k < splice_schedule->splice_count; k++) {
-                splice_schedule->splice_schedule_event_t[k].splice_event_id = ReadBitsFromArray(filebuffer_bits, 32, &filebuffer_bits_index);
-                splice_schedule->splice_schedule_event_t[k].splice_event_cancel_indicator = ReadBitsFromArray(filebuffer_bits, 1,
-                                                                                                              &filebuffer_bits_index);
-                splice_schedule->splice_schedule_event_t[k].reserved = ReadBitsFromArray(filebuffer_bits, 7, &filebuffer_bits_index);
+                splice_schedule->splice_schedule_event_t[k].splice_event_id = ReadBitsFromArray(filebuffer_bits, 32,
+                                                                                                &filebuffer_bits_index);
+                splice_schedule->splice_schedule_event_t[k].splice_event_cancel_indicator = ReadBitsFromArray(
+                        filebuffer_bits, 1,
+                        &filebuffer_bits_index);
+                splice_schedule->splice_schedule_event_t[k].reserved = ReadBitsFromArray(filebuffer_bits, 7,
+                                                                                         &filebuffer_bits_index);
                 if (splice_schedule->splice_schedule_event_t[k].splice_event_cancel_indicator == 0) {
-                    splice_schedule->splice_schedule_event_t[k].out_of_network_indicator = ReadBitsFromArray(filebuffer_bits, 1,
-                                                                                                             &filebuffer_bits_index);
-                    splice_schedule->splice_schedule_event_t[k].program_splice_flag = ReadBitsFromArray(filebuffer_bits, 1, &filebuffer_bits_index);
-                    splice_schedule->splice_schedule_event_t[k].duration_flag = ReadBitsFromArray(filebuffer_bits, 1, &filebuffer_bits_index);
-                    splice_schedule->splice_schedule_event_t[k].splice_event_reserved = ReadBitsFromArray(filebuffer_bits, 5,
-                                                                                                          &filebuffer_bits_index);
+                    splice_schedule->splice_schedule_event_t[k].out_of_network_indicator = ReadBitsFromArray(
+                            filebuffer_bits, 1,
+                            &filebuffer_bits_index);
+                    splice_schedule->splice_schedule_event_t[k].program_splice_flag = ReadBitsFromArray(filebuffer_bits,
+                                                                                                        1,
+                                                                                                        &filebuffer_bits_index);
+                    splice_schedule->splice_schedule_event_t[k].duration_flag = ReadBitsFromArray(filebuffer_bits, 1,
+                                                                                                  &filebuffer_bits_index);
+                    splice_schedule->splice_schedule_event_t[k].splice_event_reserved = ReadBitsFromArray(
+                            filebuffer_bits, 5,
+                            &filebuffer_bits_index);
                     if (splice_schedule->splice_schedule_event_t[k].program_splice_flag == 1) {
-                        splice_schedule->splice_schedule_event_t[k].utc_splice_time.time_specified_flag = ReadBitsFromArray(filebuffer_bits, 1,
-                                                                                                                            &filebuffer_bits_index);
-                        if (splice_schedule->splice_schedule_event_t[k].utc_splice_time.time_specified_flag) {
-                            splice_schedule->splice_schedule_event_t[k].utc_splice_time.time_specified_flag_reserved = ReadBitsFromArray(filebuffer_bits,
-                                                                                                                                         6,
-                                                                                                                                         &filebuffer_bits_index);
-                            splice_schedule->splice_schedule_event_t[k].utc_splice_time.pts_time = ReadBitsFromArray(filebuffer_bits, 33,
-                                                                                                                     &filebuffer_bits_index);
-                        } else {
-                            splice_schedule->splice_schedule_event_t[k].utc_splice_time.reserved = ReadBitsFromArray(filebuffer_bits, 7,
-                                                                                                                     &filebuffer_bits_index);
-                        }
-                    } // if
-
-                    if (splice_schedule->splice_schedule_event_t[k].program_splice_flag == 0) {
-                        splice_schedule->splice_schedule_event_t[k].component_count = ReadBitsFromArray(filebuffer_bits, 8, &filebuffer_bits_index);
+                        splice_schedule->splice_schedule_event_t[k].utc_splice_time.pts_time = ReadBitsFromArray(
+                                filebuffer_bits, 32,
+                                &filebuffer_bits_index);
+                    } else {
+                        splice_schedule->splice_schedule_event_t[k].component_count = ReadBitsFromArray(filebuffer_bits,
+                                                                                                        8,
+                                                                                                        &filebuffer_bits_index);
                         for (int i = 0; i < splice_schedule->splice_schedule_event_t[k].component_count; i++) {
-                            splice_schedule->splice_schedule_event_t[k].component_t[i].component_tag = ReadBitsFromArray(filebuffer_bits, 8,
-                                                                                                                         &filebuffer_bits_index);
-                            splice_schedule->splice_schedule_event_t[k].component_t[i].utc_splice_time.time_specified_flag = ReadBitsFromArray(
-                                    filebuffer_bits, 1, &filebuffer_bits_index);
-                            if (splice_schedule->splice_schedule_event_t[k].component_t[i].utc_splice_time.time_specified_flag) {
-                                splice_schedule->splice_schedule_event_t[k].component_t[i].utc_splice_time.time_specified_flag_reserved = ReadBitsFromArray(
-                                        filebuffer_bits, 6, &filebuffer_bits_index);
-                                splice_schedule->splice_schedule_event_t[k].component_t[i].utc_splice_time.pts_time = ReadBitsFromArray(
-                                        filebuffer_bits, 33, &filebuffer_bits_index);
-                            } else {
-                                splice_schedule->splice_schedule_event_t[k].component_t[i].utc_splice_time.reserved = ReadBitsFromArray(
-                                        filebuffer_bits, 7, &filebuffer_bits_index);
-                            }
+                            splice_schedule->splice_schedule_event_t[k].component_t[i].component_tag = ReadBitsFromArray(
+                                    filebuffer_bits, 8,
+                                    &filebuffer_bits_index);
+                            splice_schedule->splice_schedule_event_t[k].component_t[i].utc_splice_time.pts_time = ReadBitsFromArray(
+                                    filebuffer_bits, 32, &filebuffer_bits_index);
                         }
                     } // if splice_insert->program_splice_flag == 0
 
                     if (splice_schedule->splice_schedule_event_t[k].duration_flag == 1) {
-                        splice_schedule->splice_schedule_event_t[k].break_duration.auto_return = ReadBitsFromArray(filebuffer_bits, 1,
-                                                                                                                   &filebuffer_bits_index);
-                        splice_schedule->splice_schedule_event_t[k].break_duration.reserved = ReadBitsFromArray(filebuffer_bits, 6,
-                                                                                                                &filebuffer_bits_index);
-                        splice_schedule->splice_schedule_event_t[k].break_duration.duration = ReadBitsFromArray(filebuffer_bits, 33,
-                                                                                                                &filebuffer_bits_index);
+                        splice_schedule->splice_schedule_event_t[k].break_duration.auto_return = ReadBitsFromArray(
+                                filebuffer_bits, 1,
+                                &filebuffer_bits_index);
+                        splice_schedule->splice_schedule_event_t[k].break_duration.reserved = ReadBitsFromArray(
+                                filebuffer_bits, 6,
+                                &filebuffer_bits_index);
+                        splice_schedule->splice_schedule_event_t[k].break_duration.duration = ReadBitsFromArray(
+                                filebuffer_bits, 33,
+                                &filebuffer_bits_index);
                     } // if splice_insert->duration_flag == 1
-                    splice_schedule->splice_schedule_event_t[k].unique_program_id = ReadBitsFromArray(filebuffer_bits, 16, &filebuffer_bits_index);
-                    splice_schedule->splice_schedule_event_t[k].avail_num = ReadBitsFromArray(filebuffer_bits, 8, &filebuffer_bits_index);
-                    splice_schedule->splice_schedule_event_t[k].avails_expected = ReadBitsFromArray(filebuffer_bits, 8, &filebuffer_bits_index);
+                    splice_schedule->splice_schedule_event_t[k].unique_program_id = ReadBitsFromArray(filebuffer_bits,
+                                                                                                      16,
+                                                                                                      &filebuffer_bits_index);
+                    splice_schedule->splice_schedule_event_t[k].avail_num = ReadBitsFromArray(filebuffer_bits, 8,
+                                                                                              &filebuffer_bits_index);
+                    splice_schedule->splice_schedule_event_t[k].avails_expected = ReadBitsFromArray(filebuffer_bits, 8,
+                                                                                                    &filebuffer_bits_index);
                 } // if splice_event_cancel_indicator == 0
             }
         }

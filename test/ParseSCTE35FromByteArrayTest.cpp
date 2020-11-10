@@ -44,7 +44,7 @@ TEST_CASE("ParseSCTE35FromByteArray - splice schedule") {
 //    CHECK(sse.utc_splice_time.pts_time - siList->next->splice_info_section->pts_adjustment - 1 == -627096585282);
     CHECK(sse.unique_program_id == 4343);
     CHECK(sse.out_of_network_indicator == true);
-    CHECK(sse.break_duration.duration / 90 == 120000); // 120s
+    CHECK(sse.break_duration.duration / 90 == 120000);
     CHECK(sse.splice_event_id == 821102409);
     CHECK(sse.splice_event_cancel_indicator == false);
 
