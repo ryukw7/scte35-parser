@@ -76,7 +76,7 @@ unsigned long CreateAndParseBitArrayForFile(
 uint64_t ReadBitsFromArray(unsigned char *filebuffer_bits,
                            int bitsize,
                            unsigned long *cntx) {
-    int hSigNum = 0;
+    uint64_t hSigNum = 0;
     if (bitsize > 32) {
         for (int i = 0; i < bitsize - 32; i++) {
             hSigNum = hSigNum << 1;
@@ -88,7 +88,7 @@ uint64_t ReadBitsFromArray(unsigned char *filebuffer_bits,
         hSigNum = hSigNum * pow(2, 32);
         bitsize = 32;
     }
-    int res = 0;
+    uint64_t res = 0;
     for (int i = 0; i < bitsize; i++) {
         res = res << 1;
         int val = filebuffer_bits[(*cntx)++];
@@ -249,8 +249,16 @@ int ParseSCTE35FromByteArray(
                             splice_insert->splice_time.time_specified_flag_reserved = ReadBitsFromArray(filebuffer_bits,
                                                                                                         6,
                                                                                                         &filebuffer_bits_index);
-                            splice_insert->splice_time.pts_time = ReadBitsFromArray(filebuffer_bits, 33,
-                                                                                    &filebuffer_bits_index);
+                            uint8_t firstBit = ReadBitsFromArray(filebuffer_bits, 1, &filebuffer_bits_index);
+                            if (firstBit == 1) {
+                                splice_insert->splice_time.pts_time =
+                                        4294967296 + ReadBitsFromArray(filebuffer_bits, 32, &filebuffer_bits_index);
+                            } else {
+                                splice_insert->splice_time.pts_time = ReadBitsFromArray(filebuffer_bits, 32,
+                                                                                        &filebuffer_bits_index);
+                            }
+                            splice_insert->splice_time.pts_time += section->pts_adjustment;
+                            splice_insert->splice_time.pts_time &= 0x1FFFFFFFFL;
                         } else {
                             splice_insert->splice_time.reserved = ReadBitsFromArray(filebuffer_bits, 7,
                                                                                     &filebuffer_bits_index);
